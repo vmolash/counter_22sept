@@ -12,7 +12,8 @@ function App() {
 
     const [counters, setCounters] = useState(initialCounters);
     const [title, setTitle] = useState('');
-    const [count, setCount] = useState('');
+    const [val, setVal] = useState('');
+
     const changeCount = (id, value) => {
         const newCounters = counters.map(el => {
             if(el.id === id) {
@@ -66,17 +67,17 @@ function App() {
 
     const addCounter = () => {
         const newCounter = [...counters];
-        newCounter.push({id: Math.random(), title: title, count: count});
+        newCounter.push({id: Math.random(), title: title, count: val});
         setCounters(newCounter);
         setTitle('');
-        setCount('');
+        setVal('');
     }
 
     const changeTitle = (event) => {
         setTitle(event.target.value);
     }
     const changeValue = (event) => {
-        setCount(+event.target.value);
+        setVal(+event.target.value);
     }
 
     return (
@@ -98,7 +99,7 @@ function App() {
             </ul>
 
             <input type="text" onChange={changeTitle} value={title} placeholder='Counter title'/>
-            <input type="number" onChange={changeValue} value={count} placeholder='Counter value'/>
+            <input type="number" onChange={changeValue} value={val} placeholder='Counter value'/>
             <button onClick={addCounter}>Add counter</button>
         </div>
     );
