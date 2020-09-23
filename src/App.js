@@ -1,26 +1,107 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, {useState} from 'react';
+
+const initialCounters = [
+    {id: 1, title: 'Green', count: 1},
+    {id: '2sdf', title: 'Pink', count: 2},
+    {id: 3, title: 'Orange', count: 3},
+    {id: 'sdf3', title: 'Purple', count: 4},
+    {id: '2vbn', title: 'Blue', count: 5}
+];
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+
+    const [counters, setCounters] = useState(initialCounters);
+    const [title, setTitle] = useState('');
+    const [count, setCount] = useState('');
+    const changeCount = (id, value) => {
+        const newCounters = counters.map(el => {
+            if(el.id === id) {
+                el.count += value;
+                return el;
+            }
+            return el;
+        })
+        setCounters(newCounters);
+    }
+
+    const upById = (id) => {
+        const newCounters = [...counters];
+        for(let i = 1; i<newCounters.length; i++){
+            if(newCounters[i].id === id) {
+                let temp = {...newCounters[i]};
+                newCounters[i] = {...newCounters[i - 1]};
+                newCounters[i-1] = temp;
+            }
+        }
+        setCounters(newCounters);
+    }
+    const downById = (id) => {
+        const newCounters = [...counters];
+        for(let i = newCounters.length-1; i>=0; i--) {
+            if(newCounters[i].id === id){
+                if(i!== (newCounters.length-1)){
+                    let temp = {...newCounters[i]};
+                    newCounters[i] = {...newCounters[i+1]};
+                    newCounters[i+1] = temp;
+                }
+            }
+        }
+        setCounters(newCounters);
+    }
+
+    const resetCounter = (id) => {
+        const newCounter = counters.map( el => {
+            if(el.id === id) {
+                el.count = 0;
+                return el;
+            }
+            return el;
+        })
+        setCounters(newCounter);
+    }
+    const deleteById = (id) =>  {
+        const filteredCounters = counters.filter(el => el.id !== id);
+        setCounters(filteredCounters);
+    }
+
+    const addCounter = () => {
+        const newCounter = [...counters];
+        newCounter.push({id: Math.random(), title: title, count: count});
+        setCounters(newCounter);
+        setTitle('');
+        setCount('');
+    }
+
+    const changeTitle = (event) => {
+        setTitle(event.target.value);
+    }
+    const changeValue = (event) => {
+        setCount(+event.target.value);
+    }
+
+    return (
+        <div>
+            Counters
+            <ul>
+                {counters.map( el =>
+                    <li key={el.id}>
+                        {el.title}
+                        <button onClick={() => changeCount(el.id, -1)}>-</button>
+                        {el.count}
+                        <button onClick={() => changeCount(el.id, 1)}>+</button>
+                        <button onClick={() => resetCounter(el.id)}>Reset</button>
+                        <button onClick={() => deleteById(el.id)}>Delete</button>
+                        <button onClick={() => upById(el.id)}>Up</button>
+                        <button onClick={() => downById(el.id)}>Down</button>
+                    </li>
+                )}
+            </ul>
+
+            <input type="text" onChange={changeTitle} value={title} placeholder='Counter title'/>
+            <input type="number" onChange={changeValue} value={count} placeholder='Counter value'/>
+            <button onClick={addCounter}>Add counter</button>
+        </div>
+    );
 }
 
 export default App;
