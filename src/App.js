@@ -71,10 +71,9 @@ function App() {
         if(title && val) {
             newCounter.push({id: uuidv4(), title: title, count: val});
             setCounters(newCounter);
+            setTitle('');
+            setVal('');
         }
-
-        setTitle('');
-        setVal('');
     }
 
     const changeTitle = (event) => {
