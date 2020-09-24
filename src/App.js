@@ -68,8 +68,11 @@ function App() {
 
     const addCounter = () => {
         const newCounter = [...counters];
-        newCounter.push({id: uuidv4(), title: title, count: val});
-        setCounters(newCounter);
+        if(title && val) {
+            newCounter.push({id: uuidv4(), title: title, count: val});
+            setCounters(newCounter);
+        }
+
         setTitle('');
         setVal('');
     }
