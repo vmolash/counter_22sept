@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import { v4 as uuidv4} from 'uuid';
 
 const initialCounters = [
     {id: 1, title: 'Green', count: 1},
@@ -67,7 +68,7 @@ function App() {
 
     const addCounter = () => {
         const newCounter = [...counters];
-        newCounter.push({id: Math.random(), title: title, count: val});
+        newCounter.push({id: uuidv4(), title: title, count: val});
         setCounters(newCounter);
         setTitle('');
         setVal('');
